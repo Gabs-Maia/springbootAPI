@@ -42,7 +42,7 @@ public class Language{
     public String getSentenceOrder(){
         return this.sentenceOrder;
     }
-    public void setId(){
+    public void setId(Long id){
         this.id = id;
     }
     public void setName(String name){

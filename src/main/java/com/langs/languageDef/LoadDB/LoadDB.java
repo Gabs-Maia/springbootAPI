@@ -1,4 +1,4 @@
-package LoadDB;
+package com.langs.languageDef.LoadDB;
 
 import com.langs.languageDef.JPA.LanguageRepository;
 import com.langs.languageDef.Language;
@@ -15,8 +15,8 @@ public class LoadDB {
     CommandLineRunner initDatabase(LanguageRepository repository){
         
         return args -> {
-            log.info("Preloading " + repository.save(new Language("German", "Germanic", 8656328, "SOV")));
-            log.info("Preloading " + repository.save(new Language("French", "Romanic", 9853321, "SVO")));
+            log.info("Preloading " + repository.save(new Language("German", "Germanic languages", 8656328, "SOV")));
+            log.info("Preloading " + repository.save(new Language("French", "Romance languages", 9853321, "SVO")));
         };
     }
 }
