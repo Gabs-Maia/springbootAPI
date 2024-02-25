@@ -1,60 +1,75 @@
 package com.langs.languageDef.Controllers;
 
 import com.langs.languageDef.JPA.LanguageRepository;
-import com.langs.languageDef.Language;
 import com.langs.languageDef.LanguageNotFoundException.LanguageNotFoundException;
+import com.langs.languageDef.core.Language;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class LanguageController {
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+@RestController
+public class LanguageController{
     
     private final LanguageRepository repository;
     
     LanguageController(LanguageRepository repository){
-        
         this.repository = repository;
     }
     
     @GetMapping("/languages")
+    CollectionModel<EntityModel<Language>> all() {
+        
+        List<EntityModel<Language>> languages = repository.findAll().stream()
+                .map(language -> EntityModel.of(language,
+                        linkTo(methodOn(LanguageController.class).one(language.getId())).withSelfRel(),
+                        linkTo(methodOn(LanguageController.class).all()).withRel("employees")))
+                .collect(Collectors.toList());
+        
+        return CollectionModel.of(languages, linkTo(methodOn(LanguageController.class).all()).withSelfRel());
+    }
+    
     Language newLanguage(@RequestBody Language newLanguage){
+        
         return repository.save(newLanguage);
     }
     
     @GetMapping("/languages/{id}")
     EntityModel<Language> one(@PathVariable Long id){
         
-        Language language = repository.findById(id)
+        Language language = repository.findAllById(id)
                 .orElseThrow(() -> new LanguageNotFoundException(id));
         
         return EntityModel.of(language,
-                linkTo(methodOn(LanguageController.class).one(id)).withSelfRel(),
-                linkTo(methodOn(LanguageController.class).one(id)).withRel("languages"));
-                
+                                linkTo(methodOn(LanguageController.class).one(id)).withSelfRel(),
+                                linkTo(methodOn(LanguageController.class).all()).withRel("language"));
     }
+    
+    @PutMapping("/languages/{id}")
+    Language replaceLanguage(@RequestBody Language newLanguage, @PathVariable Long id){
         
-        @PutMapping("/languages/{id}")
-        Language replaceLanguage(@RequestBody Language newLanguage, @PathVariable Long id){
-            
-            return repository.findById(id).map(language -> {
-                        language.setName(newLanguage.getName());
-                        language.setLangFamily(newLanguage.getFamily());
-                        language.setNumberOfSpeakers(newLanguage.getNumberOfSpeaker());
-                        language.setSentenceOrder(newLanguage.getSentenceOrder());
+        return repository.findById (id)
+                .map(language -> {
+                        
+                        language.setInternationalName(newLanguage.getInternationalName());
+                        language.setLangFamily(newLanguage.getLangFamily());
                         return repository.save(language);
-                    }).orElseGet(() -> {
-                       newLanguage.setId(id);
-                       return repository.save(newLanguage);
-                    });
+                        })
+                
+                .orElseGet(() -> {
+                    
+                    newLanguage.setId(id);
+                    return repository.save(newLanguage);
+                });
+    }
+    
+    @DeleteMapping("/languages/{id}")
+    void deleteLanguage(@PathVariable Long id){
         
-        }
-        
-        @DeleteMapping("/languages/{id}")
-        void deleteLanguage(@PathVariable Long id){
-            
-            repository.deleteById(id);
+        repository.deleteById(id);
     }
 }
