@@ -1,5 +1,7 @@
 package com.langs.languageDef.LoadDB;
 
+import com.langs.languageDef.Decks.Decks;
+import com.langs.languageDef.JPA.DeckRepository;
 import com.langs.languageDef.JPA.LanguageRepository;
 import com.langs.languageDef.core.Language;
 import jakarta.persistence.Entity;
@@ -10,32 +12,27 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Entity
-public class LoadDB {
+@Configuration
+public class LoadDB{
     
     private static final Logger log = LoggerFactory.getLogger(LoadDB.class);
     
     @Bean
-    CommandLineRunner initDatabase(LanguageRepository repository){
+    CommandLineRunner initDataBase(LanguageRepository languageRepository, DeckRepository deckRepository){
         
         return args -> {
-            languageRrepository.save(new Language(
-                    "", "German",
-                    
-                    "Deutsch", "Europe", "Germanic",
-                    
-                    984178799, "SVO", "Latin",false
-            )));
-            languageRepository.save(new Language("French", "French",
-                    
-                    "Français", "Europe", "Romance",
-                    
-                    984178799, "SVO", "Latin",false));
-        
-            languageRepository.findAll().forEach(language -> log.info("Preloaded" + language));
+            /*Add data trough selenium...*/
+            languageRepository.save(new Language());
+            languageRepository.save(new Language());
             
+            languageRepository.findAll().forEach(language -> log.info("Preloaded " + language));
             
+            deckRepository.save(new Decks(("", Status.COMPLETED));
+            deckRepository.save(new Decks(("", Status.IN_PROGRESS));
             
+            deckRepository.findAll().forEach(decks -> {
+                log.info("Preloaded " + decks);
+            });
         };
     }
 }

@@ -10,10 +10,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class DeckModelAssembler implements RepresentationModelAssembler<Decks, EntityModel<Decks>> {
     
     @Override
-    public EntityModel<Decks> toModel(Decks decks){
+    public EntityModel<Decks> toModel(Decks decks) {
         
         EntityModel<Decks> deckModel = EntityModel.of(decks,
-                
-                linkTo(methodOn(DeckController.class).cancel(decks.getId())).withRel(""))
+                linkTo(methodOn(D)));
     }
 }
