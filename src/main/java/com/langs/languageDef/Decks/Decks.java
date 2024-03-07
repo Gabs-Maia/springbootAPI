@@ -2,6 +2,7 @@ package com.langs.languageDef.Decks;
 
 import com.langs.languageDef.Status.Status;
 import com.langs.languageDef.core.Language;
+import com.langs.languageDef.core.Sentences;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -70,9 +71,15 @@ public class Decks {
     
     @Override
     public boolean equals(Object object) {
+        
         if (this == object) return true;
-        if (!(object instanceof Decks decks)) return false;
-        return Objects.equals(id, decks.id) && Objects.equals(description, decks.description) && Objects.equals(status, decks.status) && Objects.equals(sentences, decks.sentences) && Objects.equals(language, decks.language);
+        if (!(object instanceof Decks)) return false;
+        
+        Decks decks = (Decks) object;
+        
+        return Objects.equals(this.id, decks.id) && Objects.equals(this.description, decks.description)
+                && Objects.equals(this.status, decks.status) && Objects.equals(this.sentences, decks.sentences)
+                && Objects.equals(this.language, decks.language);
     }
     
     @Override
@@ -89,5 +96,5 @@ public class Decks {
                 ", sentences=" + sentences +
                 ", language=" + language +
                 '}';
-    }
+    }}
    

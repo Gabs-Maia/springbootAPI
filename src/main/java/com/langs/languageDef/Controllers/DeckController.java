@@ -38,7 +38,7 @@ public class DeckController {
     }
     
     @GetMapping("/decks")
-    CollectionModel<EntityModel<Decks>> all(){
+    public CollectionModel<EntityModel<Decks>> all(){
         
         List<EntityModel<Decks>> decks = deckRepository.findAll().stream()
                 .map(assembler::toModel)
@@ -49,7 +49,7 @@ public class DeckController {
     }
     
     @GetMapping("/decks/{id}")
-    EntityModel<Decks> one(@PathVariable Long id) {
+    public EntityModel<Decks> one(@PathVariable Long id) {
         
         Decks decks = deckRepository.findById(id).orElseThrow(() ->
                 new DeckNotFoundException(id));
@@ -69,7 +69,7 @@ public class DeckController {
     }
     
     @DeleteMapping("/decks/{id}/cancel")
-    ResponseEntity<?> cancel(@PathVariable Long id){
+    public ResponseEntity<?> cancel(@PathVariable Long id){
         
         Decks decks = deckRepository.findById(id)
                 .orElseThrow(() -> new DeckNotFoundException(id));
@@ -89,7 +89,7 @@ public class DeckController {
     }
     
     @PutMapping("/decks/{id}/complete")
-    ResponseEntity<?> complete(@PathVariable Long id){
+    public ResponseEntity<?> complete(@PathVariable Long id){
         
         Decks decks = deckRepository.findById(id)
                 .orElseThrow(() -> new DeckNotFoundException(id));

@@ -22,7 +22,7 @@ public class LanguageController{
     }
     
     @GetMapping("/languages")
-    CollectionModel<EntityModel<Language>> all() {
+    public CollectionModel<EntityModel<Language>> all() {
         
         List<EntityModel<Language>> languages = repository.findAll().stream()
                 .map(language -> EntityModel.of(language,
@@ -39,7 +39,7 @@ public class LanguageController{
     }
     
     @GetMapping("/languages/{id}")
-    EntityModel<Language> one(@PathVariable Long id){
+    public EntityModel<Language> one(@PathVariable Long id){
         
         Language language = repository.findAllById(id)
                 .orElseThrow(() -> new LanguageNotFoundException(id));

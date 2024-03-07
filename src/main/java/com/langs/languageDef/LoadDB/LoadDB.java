@@ -3,6 +3,8 @@ package com.langs.languageDef.LoadDB;
 import com.langs.languageDef.Decks.Decks;
 import com.langs.languageDef.JPA.DeckRepository;
 import com.langs.languageDef.JPA.LanguageRepository;
+import com.langs.languageDef.JPA.SentenceRepository;
+import com.langs.languageDef.Status.Status;
 import com.langs.languageDef.core.Language;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,12 +29,14 @@ public class LoadDB{
             
             languageRepository.findAll().forEach(language -> log.info("Preloaded " + language));
             
-            deckRepository.save(new Decks(("", Status.COMPLETED));
-            deckRepository.save(new Decks(("", Status.IN_PROGRESS));
+            deckRepository.save(new Decks("", Status.COMPLETED));
+            deckRepository.save(new Decks("", Status.IN_PROGRESS));
             
             deckRepository.findAll().forEach(decks -> {
                 log.info("Preloaded " + decks);
             });
+            
+            
         };
     }
 }

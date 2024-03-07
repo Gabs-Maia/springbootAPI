@@ -20,11 +20,11 @@ public class Language{
     private String alphabetType;
     private boolean hasCases;
     
-     Language(Long id, String internationalName, String originalName, String[] spokenByRegions,
-                    
-                    String langFamily, Integer numSpeakers, String sentenceOrder,
-                    
-                    String alphabetType, boolean hasCases) {
+     public Language(Long id, String internationalName, String originalName, String[] spokenByRegions,
+                     
+                     String langFamily, Integer numSpeakers, String sentenceOrder,
+                     
+                     String alphabetType, boolean hasCases) {
         
         this.id = id;
         this.internationalName = internationalName;
